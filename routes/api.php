@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('posts')->group(function () {
     Route::post('/migrate', [PostController::class, 'migrate']);
+    Route::get('/{post:id}', [PostController::class, 'show']);
 });
 
 Route::prefix('users')->group(function () {
