@@ -83,4 +83,5 @@ https://laravel.com/docs/8.x/sail
 - [GET method] Fetch top posts: http://localhost/api/posts/top
 - [GET method] Fetch post by id: http://localhost/api/posts/1
 
+- **[Swagger for testing endpoints and small description of each endpoint](http://localhost/api/documentation)**
 - **[Postman endpoints collection](https://www.postman.com/lucianobosco/workspace/horizm/collection/1447261-370e0a24-abb4-4a18-90d9-51f44924b673?action=share&creator=1447261)**
