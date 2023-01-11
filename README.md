@@ -62,3 +62,25 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# Horizm challenge
+
+## Installation instructions
+
+Development was made by using Laravel Sail. Please be sure to fit all requirements to run laravel Sail
+https://laravel.com/docs/8.x/sail
+
+1. Clone the repository https://github.com/lucianobosco/horizm (remember to add GitHub key)
+2. CD into repository folder
+3. Run `composer install`
+4. Run `sail up`. If not PATH env is set in your OS then you can run `./vendor/bin/sail up`
+
+## Available endpoints
+
+- [POST method] Run posts migration: http://localhost/api/posts/migrate
+- [POST method] Run users migration: http://localhost/api/users/migrate
+- [GET method] Fetch users and its posts: http://localhost/api/users
+- [GET method] Fetch top posts: http://localhost/api/posts/top
+- [GET method] Fetch post by id: http://localhost/api/posts/1
+
+- **[Postman endpoints collection](https://www.postman.com/lucianobosco/workspace/horizm/collection/1447261-370e0a24-abb4-4a18-90d9-51f44924b673?action=share&creator=1447261)**
