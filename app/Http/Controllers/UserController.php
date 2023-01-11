@@ -17,7 +17,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::select(
+            'id',
+            'name',
+            'email',
+            'city'
+        )
+        ->withAvg('posts', 'rating')
+        ->with('posts:user_id,id,title,body')
+        ->orderByDesc('posts_avg_rating')
+        ->get()
+        ->makeHidden('posts_avg_rating'); // Hide post avg rating since it's not required by docs
+
+        return $users;
     }
 
     /**
