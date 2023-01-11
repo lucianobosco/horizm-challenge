@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
@@ -54,6 +55,28 @@ class PostController extends Controller
             'title' => $post->title,
             'user' => $post->user->name,
         ];
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showTop()
+    {
+        $posts = Post::select(
+                'posts.id',
+                DB::raw('MAX(posts.rating) AS rating'),
+                'posts.title',
+                'posts.body',
+                'posts.user_id',
+                DB::raw('users.name AS user')
+            )
+            ->join('users', 'posts.user_id', 'users.id')
+            ->groupBy('user_id')
+            ->get();
+
+        return $posts;
     }
 
     /**
