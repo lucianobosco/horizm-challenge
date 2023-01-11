@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\Post;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class PostTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Test post migration.
      *
      * @return void
      */
@@ -26,5 +27,32 @@ class PostTest extends TestCase
                 ])
             )
             ->assertJsonCount(50, 'data');
+    }
+
+    /**
+     * Test fetch post by id.
+     *
+     * @return void
+     */
+    public function test_get_post()
+    {
+        $post = Post::with('user')->latest()->first();
+
+        $this->getJson("/api/posts/$post->id")
+            ->assertOk()
+            ->assertJson(fn (AssertableJson $json) =>
+                $json->whereAllType([
+                    'id' => 'integer',
+                    'title' => 'title',
+                    'body' => 'body',
+                    'user' => 'user'
+                ])
+            )
+            ->assertExactJson([
+                'id' => $post->id,
+                'title' => $post->title,
+                'body' => $post->body,
+                'user' => $post->user->name,
+            ]);
     }
 }
