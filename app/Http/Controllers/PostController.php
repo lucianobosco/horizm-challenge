@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
@@ -80,5 +83,40 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Migrate posts from external API.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function migrate()
+    {
+        // Fetch data from external API
+        $response = Http::get('https://jsonplaceholder.typicode.com/posts')->throw();
+
+        $posts = $response
+            ->collect() // Convert response to collection
+            ->take(50) // Take first 50 elements
+            ->transform(function($post){
+                // Transform object to be inserted/updated
+                return [
+                    'id' => $post['id'],
+                    'user_id' => $post['userId'],
+                    'title' => $post['title'],
+                    'body' => $post['body'],
+                    'rating' => getPostRating($post)
+                ];
+            });
+
+        // Insert Post if missing in DB, otherwise just update the Post's body. Match by post.id
+        $count = Post::upsert($posts->toArray(), ['id'], ['body']);
+
+        // Return posts collection from DB matched by IDs from external API
+        return [
+            'message' => "$count posts sucessfully migrated",
+            'data' => PostResource::collection(Post::whereIn('id', $posts->pluck('id'))->get())
+        ];
     }
 }
