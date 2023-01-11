@@ -113,7 +113,7 @@ class PostController extends Controller
         // Insert Post if missing in DB, otherwise just update the Post's body. Match by post.id
         $count = Post::upsert($posts->toArray(), ['id'], ['body']);
 
-        // Return posts collection from DB matched by IDs from external API
+        // This response may be unnecesary and could be removed
         return [
             'message' => "$count posts sucessfully migrated",
             'data' => PostResource::collection(Post::whereIn('id', $posts->pluck('id'))->get())

@@ -21,7 +21,7 @@ class UserTest extends TestCase
                     'data.0.id' => 'integer',
                     'data.0.name' => 'string',
                     'data.0.email' => 'string',
-                    'data.0.city' => 'integer',
+                    'data.0.city' => 'string',
                     'message' => 'string'
                 ])
             );
