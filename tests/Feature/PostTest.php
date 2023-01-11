@@ -43,9 +43,9 @@ class PostTest extends TestCase
             ->assertJson(fn (AssertableJson $json) =>
                 $json->whereAllType([
                     'id' => 'integer',
-                    'title' => 'title',
-                    'body' => 'body',
-                    'user' => 'user'
+                    'title' => 'string',
+                    'body' => 'string',
+                    'user' => 'string'
                 ])
             )
             ->assertExactJson([
