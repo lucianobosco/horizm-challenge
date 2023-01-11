@@ -28,4 +28,5 @@ Route::prefix('posts')->group(function () {
 
 Route::prefix('users')->group(function () {
     Route::post('/migrate', [UserController::class, 'migrate']);
+    Route::get('/', [UserController::class, 'index']);
 });
