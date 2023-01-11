@@ -55,4 +55,25 @@ class PostTest extends TestCase
                 'user' => $post->user->name,
             ]);
     }
+
+    /**
+     * Test fetch post by id.
+     *
+     * @return void
+     */
+    public function test_get_top_post()
+    {
+        $this->getJson("/api/posts/top")
+            ->assertOk()
+            ->assertJson(fn (AssertableJson $json) =>
+                $json->whereAllType([
+                    '0.id' => 'integer',
+                    '0.title' => 'string',
+                    '0.body' => 'string',
+                    '0.rating' => 'integer',
+                    '0.user_id' => 'integer',
+                    '0.user' => 'string',
+                ])
+            );
+    }
 }
