@@ -26,4 +26,29 @@ class UserTest extends TestCase
                 ])
             );
     }
+
+    /**
+     * Test fetch post by id.
+     *
+     * @return void
+     */
+    public function test_get_users()
+    {
+        $this->getJson("/api/users")
+            ->assertOk()
+            ->assertJson(fn (AssertableJson $json) =>
+                $json->whereAllType([
+                    '0.id' => 'integer',
+                    '0.name' => 'string',
+                    '0.email' => 'string',
+                    '0.city' => 'string',
+
+                    '0.posts' => 'array',
+                    '0.posts.0.id' => 'integer',
+                    '0.posts.0.title' => 'string',
+                    '0.posts.0.body' => 'string',
+                    '0.posts.0.user_id' => 'integer',
+                ])
+            );
+    }
 }
